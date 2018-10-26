@@ -1,0 +1,165 @@
+﻿@model MenuViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+@section Styles{
+    <link href="~/alertifyjs/css/alertify.css" rel="stylesheet" />
+    <link href="~/alertifyjs/css/themes/default.css" rel="stylesheet" />
+
+}
+<div class="col-md-12">
+    <h3>Add/Update Menu for Dropdowns</h3>
+</div>
+<hr />
+<div class="modal fade" id="addCountry" tabindex="-1" role="dialog" aria-labelledby="addCountry-label">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCountry-label">Add New Country</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtcountryname" placeholder="Enter Country" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnsavecountry" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addCity" tabindex="-1" role="dialog" aria-labelledby="addCountry-label">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCountry-label">Add New City</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtcityname" placeholder="Enter City" class="form-control" /><br />
+                @Html.DropDownListFor(p => p.CountryId, Model.Countries, "- Select Country -", new { @class = "form-control" })
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnsavecity" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Update Countries</h3>
+            <button class="btn btn-xs btn-success pull-right" id="btnAddCountry">Add</button>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table class="table table-bordered" id="country">
+                <thead id="tablehead">
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Name</th>
+                        <th style="width: 40px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="countrydata"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Update Cities</h3>
+            <button class="btn btn-xs btn-success pull-right" id="btnAddCity">Add</button>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table class="table table-bordered" id="country">
+                <thead id="tablehead">
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Name</th>
+                        <th>Country</th>
+                        <th style="width: 40px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="citydata">
+                    <tr>
+                        <td>1.</td>
+                        <td>Rawalpindi</td>
+                        <td>Pakistan</td>
+                        <td class='col-md-3 col-sm-3 col-xs-2'>
+                            <div class='btn btn-warning btn-xs' data-id=" + elem.value + "><i class='fa fa-edit'></i></div>&nbsp;
+                            <div class='btn btn-danger btn-xs' data-id=" + elem.value + "><i class='fa fa-trash'></i></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/alertifyjs/alertify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            ajaxcall();
+            $("#btnAddCountry").click(function () {
+                $("#addCountry").modal();
+            });
+            $("#btnsavecountry").click(function () {
+                $.ajax(
+                    {
+                        url: "/Admin/Menu/AddUpdateCountry/",
+                        type: "POST",
+                        data: { GetCountry: $("#txtcountryname").val() }
+                    }).done(function (result) {
+                        if (result) {
+                            ajaxcall();
+                            alertify.notify($("#txtcountryname").val() + " Inserted Successfully", 'success', 3);
+                        }
+                    });
+            });
+
+            $("#btnAddCity").click(function () {
+                $("#addCity").modal();
+
+                $.ajax({
+                    url: "/Admin/Menu/GetCountries/",
+                    type: "GET"
+
+                }).done(function (result) {
+                    $("#countrydata").html("");
+                    $.each(result, function (index, elem) {
+                        var temp = "<option value='" + elem.value + "'>" + element.text + "</option>";
+                        $("#countrydatalist").append(temp);
+                    })
+                });
+            });
+        });
+        var ajaxcall = function () {
+            $.ajax({
+                url: "/Admin/Menu/GetCountries/",
+                type: "GET"
+
+            }).done(function (result) {
+                $("#countrydata").html("");
+                var ind = 1;
+                $.each(result, function (index, elem) {
+                    var temp = "<tr>";
+                    temp += "<td>" + ind + "</td>";
+                    temp += "<td>" + elem.text + "</td>";
+                    temp += "<td class='col-md-2 col-sm-2 col-xs-2'>"
+                    temp += "<div class='btn btn-warning btn-xs' data-id=" + elem.value + "><i class='fa fa-edit'></i></div>&nbsp;";
+                    temp += "<div class='btn btn-danger btn-xs'data-id=" + elem.value + "><i class='fa fa-trash'></i></div>";
+                    temp += "</td></tr>";
+                    $("#countrydata").append(temp);
+                    ind++;
+                });
+            })
+        };
+
+
+    </script>
+}

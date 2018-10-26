@@ -1,0 +1,343 @@
+﻿@model MenuViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+@section Styles{
+
+    <link href="~/lib/alertifyjs/css/alertify.css" rel="stylesheet" />
+    <link href="~/lib/alertifyjs/css/themes/default.css" rel="stylesheet" />
+
+    <style>
+
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ccc;
+            margin: 1em 0;
+            padding: 0;
+        }
+
+        .col-md-6 {
+            margin: 0px;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+}
+
+<div class="modal fade" id="addCountry" tabindex="-1" role="dialog" aria-labelledby="addCountry-label">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCountry-label">Add New Country</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtcountryname" placeholder="Enter Country" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnsavecountry" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addVisa" tabindex="-1" role="dialog" aria-labelledby="addVisa-label">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addVisa-label">Add New Visa</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtvisaname" placeholder="Enter VisaType" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnsavevisa" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addCity" tabindex="-1" role="dialog" aria-labelledby="addCity-label">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCity-label">Add New Visa</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtcityname" placeholder="Enter City" class="form-control" />
+                <br />
+                @Html.DropDownListFor(p => p.CountryId, Model.Countries, "- Select Country -", new { @class = "form-control" })
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnsavecity" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12">
+    <h2>Add/Update Menus</h2>
+    <hr />
+</div>
+<div class="col-md-6">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Update Countries</h3>
+            <button class="btn btn-xs btn-success pull-right" id="btnAddCountry">Add</button>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" id="countryList" style="height:215px; overflow:scroll;">
+            @await Component.InvokeAsync("CountryList")
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Update City</h3>
+            <button class="btn btn-xs btn-success pull-right" id="btnAddCity">Add</button>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" id="cityList" style="height:215px; overflow:scroll;">
+            @await Component.InvokeAsync("CityList")
+        </div>
+    </div>
+
+</div>
+<div class="col-md-6">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Update Visa</h3>
+            <button class="btn btn-xs btn-success pull-right" id="btnAddVisa">Add</button>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" id="VisaTypeList" style="height:215px; overflow:scroll;">
+            @await Component.InvokeAsync("VisaTypeList")
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/alertifyjs/alertify.js"></script>
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script type="text/javascript">
+        $("#btnAddCountry").click(function () {
+            $("#addCountry").modal();
+        });
+        $("#btnsavecountry").click(function () {
+            if ($("#txtcountryname").val().length > 0) {
+                $.ajax(
+                    {
+                        url: "/Menu/AddCountry/",
+                        type: "POST",
+                        data: { country: $("#txtcountryname").val() }
+                    }).done(function (result) {
+                        if (result) {
+                            getCountries();
+                            alertify.notify($("#txtcountryname").val() + " Inserted Successfully", 'success', 5);
+                            $("#txtcountryname").val("");
+                        }
+                    });
+
+                $("#btnsavecountry").attr("data-dismiss", "modal");
+            } else {
+                $("#btnsavecountry").attr("data-dismiss", "");
+            }
+        });
+
+        $("#btnAddVisa").click(function () {
+            $("#addVisa").modal();
+        });
+        $("#btnsavevisa").click(function () {
+            if ($("#txtvisaname").val().length > 0) {
+                $.ajax(
+                    {
+                        url: "/Menu/AddVisaType/",
+                        type: "POST",
+                        data: { Visa: $("#txtvisaname").val() }
+                    }).done(function (result) {
+                        if (result) {
+                            getVisaTypes();
+                            alertify.notify($("#txtvisaname").val() + " Inserted Successfully", 'success', 5);
+                            $("#txtvisaname").val("");
+                        }
+                    });
+                $("#btnsavevisa").attr("data-dismiss", "modal");
+            } else {
+                $("#btnsavevisa").attr("data-dismiss", "");
+            }
+        });
+
+        $("#btnAddCity").click(function () {
+            $("#addCity").modal();
+        });
+
+        $("#btnsavecity").click(function () {
+            //$("#CountryId").change(function () {
+            //var countryId = $(this).select("option:selected").val();
+            var sel = document.getElementById("CountryId");
+            var countryId = (sel.options[sel.selectedIndex].value);
+            if ($("#txtcityname").val().length > 0 && countryId > 0) {
+                $.ajax(
+                    {
+                        url: "/Menu/AddCity/",
+                        type: "POST",
+                        data: {
+                            _city: $("#txtcityname").val(),
+                            _countryId: parseInt(countryId)
+                        }
+                    }).done(function (result) {
+                        if (result) {
+                            alertify.notify($("#txtcityname").val() + " Inserted Successfully", 'success', 3);
+                            getCities();
+                            $("#txtcityname").val("");
+                        }
+                    });
+                $("#btnsavecity").attr("data-dismiss", "modal");
+            } else {
+                $("#btnsavecity").attr("data-dismiss", "");
+            }
+        });
+
+        $(".deleteCountry").click(function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            var url = button.attr('href');
+            var id = button.attr('data-id');
+
+            bootbox.confirm({
+                message: "Are You Sure to Delete?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax(
+                            {
+                                url: url,
+                                type: "GET",
+                                data: { Id: id }
+                            }).done(function (result) {
+                                if (result) {
+                                    //getCountries();
+                                    alertify.notify("Data Deleted Successfully", 'success', 5);
+                                }
+                            });
+                    }
+                }
+            });
+        });
+
+        $(".deletevisa").click(function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            var id = button.attr('data-id');
+            var url = button.attr('href');
+
+            bootbox.confirm({
+                message: "Are You Sure to Delete?",
+                buttons: {
+                    confirm: {
+                        label: "Yes",
+                        className: "btn-success"
+                    },
+                    cancel: {
+                        label: "No",
+                        className: "btn-danger"
+                    }
+                },
+                callback: function (response) {
+                    if (response) {
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            data: { Id: id }
+                        }).done(function (result) {
+                            if (result) {
+                                //getVisaTypes();
+                                alertify.notify("Data Deleted Successfully", "success", 5);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        $(".deletecity").click(function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            var id = button.attr('data-id');
+            var url = button.attr('href');
+
+            bootbox.confirm({
+                message: "Are You Sure to Delete?",
+                buttons: {
+                    confirm: {
+                        label: "Yes",
+                        className: "btn-success"
+                    },
+                    cancel: {
+                        label: "No",
+                        className: "btn-danger"
+                    }
+                },
+                callback: function (response) {
+                    if (response) {
+                        $.ajax({
+                            url: url,
+                            type: "GET",
+                            data: { Id: id }
+                        }).done(function (result) {
+                            if (result) {
+                                //getCities();
+                                alertify.notify("Data Deleted Successfully", "success", 5);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        var getCountries = function () {
+            $.ajax({
+                url: "/Menu/GetCountries/",
+                type: "GET"
+            }).done(function (result) {
+                $("#countryList").html(result);
+            });
+        };
+        var getCities = function () {
+            $.ajax({
+                url: "/Menu/GetCities/",
+                type: "GET"
+            }).done(function (result) {
+                $("#cityList").html(result);
+            });
+        };
+        var getVisaTypes = function () {
+            $.ajax({
+                url: "/Menu/GetVisaTypes/",
+                type: "GET"
+            }).done(function (result) {
+                $("#VisaTypeList").html(result);
+            });
+        };
+    </script>
+}

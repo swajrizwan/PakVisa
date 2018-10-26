@@ -1,0 +1,43 @@
+﻿@model IEnumerable<VisaTypeListViewModel>
+
+@{
+    Layout = null;
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <p>
+            No Data Found..
+        </p>
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-condensed table-striped table-hover" id="country">
+        <thead id="tablehead">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>Name</th>
+                <th class="text-center" style="width: 40px">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="countrydata">
+            @{
+                int index = 0;
+            }
+            @foreach (var item in Model)
+            {
+                index++;
+                <tr>
+                    <td>@index.</td>
+                    <td>@item.Description</td>
+                    <td class='col-md-3 col-sm-3 col-xs-3 text-center'>
+                        <a class='btn btn-warning btn-xs' asp-area="" asp-controller="Menu" asp-action="EditVisaType" data-id="@item.VisaTypeId"><i class='fa fa-edit'></i></a>
+                        <a class='btn btn-danger btn-xs deletevisa' asp-area="" asp-controller="Menu" asp-action="RemoveVisaType" data-id="@item.VisaTypeId"><i class='fa fa-trash'></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

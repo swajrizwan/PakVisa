@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PakVisa.Models", "PakVisa.Models\PakVisa.Models.csproj", "{EE74D08B-4551-4D11-98B5-8B7F322E9DC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain Models", "Domain Models", "{D827160B-70C7-4454-8913-6596E1646DE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data Access", "Data Access", "{AFC29DBD-8691-4EA3-B61D-36B8108D4A97}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PakVisa.DataAccess", "PakVisa.DataAccess\PakVisa.DataAccess.csproj", "{874E147D-6E33-40A7-8C1D-9749D454BA52}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{44BA01FB-7722-4272-BBEC-F7455757BCC3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PakVisa.Repository", "PakVisa.Repository\PakVisa.Repository.csproj", "{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUI", "WebUI", "{FB653F82-DDF9-4839-A409-7CBD236C75BF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PakVisa.Admin", "PakVisa.Admin\PakVisa.Admin.csproj", "{6058602A-7B69-436C-B314-02F878F7EC8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE74D08B-4551-4D11-98B5-8B7F322E9DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE74D08B-4551-4D11-98B5-8B7F322E9DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE74D08B-4551-4D11-98B5-8B7F322E9DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE74D08B-4551-4D11-98B5-8B7F322E9DC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{874E147D-6E33-40A7-8C1D-9749D454BA52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{874E147D-6E33-40A7-8C1D-9749D454BA52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{874E147D-6E33-40A7-8C1D-9749D454BA52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{874E147D-6E33-40A7-8C1D-9749D454BA52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6058602A-7B69-436C-B314-02F878F7EC8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6058602A-7B69-436C-B314-02F878F7EC8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6058602A-7B69-436C-B314-02F878F7EC8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6058602A-7B69-436C-B314-02F878F7EC8D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EE74D08B-4551-4D11-98B5-8B7F322E9DC2} = {D827160B-70C7-4454-8913-6596E1646DE6}
+		{874E147D-6E33-40A7-8C1D-9749D454BA52} = {AFC29DBD-8691-4EA3-B61D-36B8108D4A97}
+		{7B87F809-F1FD-4C4B-8B81-89E49CE96C1F} = {44BA01FB-7722-4272-BBEC-F7455757BCC3}
+		{6058602A-7B69-436C-B314-02F878F7EC8D} = {FB653F82-DDF9-4839-A409-7CBD236C75BF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {716275E3-4327-4713-A852-276A7460A955}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,66 @@
+﻿@model PakVisa.WebUI.Areas.Admin.Models.MenuViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<link href="~/lib/alertify.js/themes/alertify.core.css" rel="stylesheet" />
+<link href="~/lib/alertify.js/themes/alertify.default.css" rel="stylesheet" />
+
+<h2>Dashboard</h2>
+
+<div class="modal fade modal-primary" id="addCountry" tabindex="-1" role="dialog" aria-labelledby="addCountry-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="addCountry-label">Add New Country</h4>
+            </div>
+            <div class="modal-body">
+                <input id="txtcountryname" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="btnsave" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-default" asp-area="Admin" asp-controller="Menu" asp-action="AddUpdateCountry">Add New Country</a>
+<a class="btn btn-default" asp-area="Admin" asp-controller="Menu" asp-action="AddUpdateVisaType">Add New Visa Type</a>
+<a class="btn btn-default" asp-area="Admin" asp-controller="Menu" asp-action="AddUpdateCity">Add New City</a>
+
+<br />
+<br />
+<br />
+<br />
+<a class="btn btn-default" id="btnaddcountry">Add New Country</a>
+
+
+
+
+
+@section Scripts{
+    <script src="~/lib/bootbox.js/bootbox.js"></script>
+    <script src="~/lib/alertify.js/lib/alertify.js"></script>
+    <script type="text/javascript">
+        $(function () {
+           alertify.success("Success notification");
+        });
+        $("#btnaddcountry").click(function () {
+            $("#addCountry").modal();
+        });
+        $("#btnsave").click(function () {
+            $.ajax(
+                {
+                    url: "/Admin/Menu/AddUpdateCountry/",
+                    type: "POST",
+                    data: { GetCountry: $("#txtcountryname").val() }
+                }).done(function (result) {
+                    if (result) {
+                        alertify.success("Data Inserted");
+                    }
+                });
+        });
+    </script>
+}

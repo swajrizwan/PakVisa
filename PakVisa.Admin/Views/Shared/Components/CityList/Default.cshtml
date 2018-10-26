@@ -1,0 +1,54 @@
+﻿@model IEnumerable<CityListViewModel>
+
+@{
+    Layout = null;
+}
+@section Styles{
+    <style>
+        tbody {
+            display: block;
+            height: 20px;
+            overflow: auto;
+        } 
+    </style>
+}
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        <p>
+            No Data Found..
+        </p>
+    </div>
+}
+else
+{
+        <table class="table table-bordered table-condensed table-striped table-hover" id="country">
+            <thead id="tablehead">
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th class="text-center" style="width: 40px">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="countrydata">
+                @{
+                    int index = 0;
+                }
+                @foreach (var item in Model)
+                {
+                    index++;
+                    <tr>
+                        <td>@index.</td>
+                        <td>@item.Description</td>
+                        <td>@item.Country</td>
+                        <td class='col-md-3 col-sm-3 col-xs-3 text-center'>
+                            <a class='btn btn-warning btn-xs' asp-route-id="@item.CityId"><i class='fa fa-edit'></i></a>
+                            <a class='btn btn-danger btn-xs deletecity' asp-area="" asp-controller="Menu" asp-action="RemoveCity" data-id="@item.CityId"><i class='fa fa-trash'></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+}
